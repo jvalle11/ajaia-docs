@@ -153,7 +153,19 @@ because Node 20's built-in test runner cannot execute .ts files directly
 without a compiler. Converting to .mjs removes the need for any build step 
 and keeps the test runnable with a single command.
 
+### Tests — All Passing
+6/6 integration tests pass against live local server:
+✔ creates a new document (169ms)
+✔ fetches a document by id (6257ms)  
+✔ updates a document title (152ms)
+✔ returns owned documents for a user (570ms)
+✔ rejects share request with missing fields (361ms)
+✔ deletes a document (157ms)
 
+### Deployment
+- GitHub repo pushed with full source code
+- Deployed to Vercel — environment variables added via Vercel dashboard
+- Live URL: [add your URL here]
 
 ---
 
