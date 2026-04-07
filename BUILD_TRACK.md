@@ -135,6 +135,12 @@ where browser APIs don't exist, causing a hydration mismatch. Added the flag
 to the useEditor config in Editor.tsx. Another case where AI generated code 
 needed a manual fix for a framework-specific constraint.
 
+### Bug Fix — Delete Button On Shared Documents
+Documents shared with others were incorrectly losing their delete button 
+for the owner. Fixed by ensuring shared documents query filters out docs 
+where owner_id matches the current user, so owned docs always render with 
+the delete action regardless of share status.
+
 ### Automated Tests — `__tests__/documents.test.ts`
 Uses Node's built-in test runner (node:test) — no extra dependencies needed.
 Switched from Jest due to a binary compatibility issue between Jest and 
@@ -174,6 +180,11 @@ and keeps the test runnable with a single command.
   what was rejected
 - SUBMISSION.md — what is included, what works, what is incomplete, 
   what comes next
+
+### Video Walkthrough
+Video covering: login flow, document creation, rich 
+text formatting, autosave, reopen, file upload, sharing between Alice and 
+Bob, shared document badge, and deliberate scope cuts.
 
 ---
 

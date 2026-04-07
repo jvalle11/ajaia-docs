@@ -34,7 +34,8 @@ export async function GET(request: NextRequest) {
 
   const sharedDocuments = sharedDocs
     ?.map((s: any) => ({ ...s.documents, isShared: true }))
-    .filter(Boolean) || []
+    .filter((d: any) => d.owner_id !== userId) 
+    || []
 
   const ownedDocuments = (ownedDocs || []).map((d: any) => ({
     ...d,
