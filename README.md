@@ -4,7 +4,7 @@ A lightweight collaborative document editor built with Next.js, TipTap, and Supa
 
 ## Live Demo
 
-[Add your Vercel URL here]
+https://ajaia-docs-gules.vercel.app/
 
 **Test accounts:**
 - alice@test.com
