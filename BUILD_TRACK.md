@@ -9,7 +9,6 @@
 | Rich Text Editor | TipTap | Most modern React-based editor, handles bold/italic/underline/headings/lists out of the box, free, well documented |
 | Database + Storage | Supabase | Free hosted Postgres with a visual dashboard, built-in file storage, easy to demo live |
 | Primary Deployment | Vercel | Built by the Next.js team, zero-config deployment, live URL in 2 minutes |
-| Secondary Deployment | Cloudflare Workers | Explicitly requested by boss — attempted after Vercel to compare approaches and speak to tradeoffs |
 | Language | TypeScript | Type safety catches bugs early, makes the codebase more readable for reviewers |
 | Styling | Tailwind CSS | Utility-first, fast to write, no separate CSS files needed |
 
