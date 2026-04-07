@@ -165,7 +165,15 @@ and keeps the test runnable with a single command.
 ### Deployment
 - GitHub repo pushed with full source code
 - Deployed to Vercel — environment variables added via Vercel dashboard
-- Live URL: [add your URL here]
+- Live URL: https://ajaia-docs-gules.vercel.app/
+
+### Documentation Files Created
+- README.md — local setup, test instructions, feature list, what was cut
+- ARCHITECTURE.md — stack decisions, data model, API design, tradeoffs
+- AI_WORKFLOW.md — tools used, what was generated, what was fixed, 
+  what was rejected
+- SUBMISSION.md — what is included, what works, what is incomplete, 
+  what comes next
 
 ---
 
