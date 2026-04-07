@@ -4,7 +4,7 @@
 
 | Layer | Tool | Reason |
 |---|---|---|
-| Frontend + Backend | Next.js 16 | One framework, one repo, one deployment |
+| Frontend + Backend | Next.js 20.9.0 | One framework, one repo, one deployment |
 | Rich text editor | TipTap | Most modern React editor, ProseMirror underneath |
 | Database + Storage | Supabase (Postgres) | Free hosted SQL, visual dashboard, easy to demo |
 | Primary deployment | Vercel | Zero-config for Next.js, live URL in minutes |
