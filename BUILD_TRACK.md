@@ -24,8 +24,8 @@ I deployed to Vercel first because it's zero-config for Next.js and guaranteed a
 ## What I Built
 
 ### Environment Setup
-- **Node v20.9.0** — confirmed compatible, EBADENGINE warnings on ESLint are non-breaking and can be ignored
-- **Git 2.53.0** — confirmed installed
+- **Node v20.9.0**
+- **Git 2.53.0**
 - **GitHub repo** — created `ajaia-docs`, cloned locally
 - **Supabase project** — created `ajaia-docs`, provisioned free Postgres database
 
