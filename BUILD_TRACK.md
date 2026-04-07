@@ -177,13 +177,15 @@ and keeps the test runnable with a single command.
 
 ## What I Intentionally Cut & Why
 
+## What I Intentionally Cut & Why
+
 | Feature | Decision | Reason |
 |---|---|---|
-| Real authentication | Replaced with seeded users + email picker | Auth alone is 2-3 hours — not the skill being tested |
-| Real-time collaboration | Not built | Would require WebSockets or Supabase Realtime — out of scope for timebox |
-| Version history | Not built | Stretch goal — would add a `document_versions` table and snapshot on save |
-| Role-based permissions | Not built | Sharing is binary (access or no access) — sufficient to demonstrate the model |
-| Mobile optimization | Minimal | Document editors are desktop-first products |
+| Real authentication | Replaced with seeded accounts and an email picker | Auth alone is 2-3 hours of scope — the assessment is testing document editing and sharing logic, not OAuth flows |
+| Real-time collaboration | Not built — would implement with Supabase Realtime or WebSockets | Out of timebox — core editing and persistence were higher priority to get right |
+| Version history | Not built — would add a `document_versions` table and snapshot content on each save | Stretch goal that depends on a solid save flow first, which is now in place |
+| Role-based permissions | Simplified to binary access — you either have access or you don't | Sufficient to demonstrate the sharing model clearly without over-engineering for a prototype |
+| Mobile optimization | Minimal responsive effort only | Document editors are desktop-first products — not where the assessment value is |
 
 ---
 
