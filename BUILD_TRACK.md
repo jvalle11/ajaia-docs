@@ -1,11 +1,9 @@
 # Ajaia Docs — Build Tracker
-*Update this as each step is completed. This becomes your architecture note, AI workflow note, and talking points for the meeting.*
-
 ---
 
 ## Stack Decisions & Why
 
-| Layer | Tool | Why We Chose It |
+| Layer | Tool | Why I Chose It |
 |---|---|---|
 | Frontend + Backend | Next.js | One framework handles both UI and API routes — no separate server needed, one repo, one deployment |
 | Rich Text Editor | TipTap | Most modern React-based editor, handles bold/italic/underline/headings/lists out of the box, free, well documented |
@@ -17,13 +15,13 @@
 
 ---
 
-## Vercel vs Cloudflare Workers — Talking Point
+## Vercel vs Cloudflare Workers
 
-> "I deployed to Vercel first because it's zero-config for Next.js and guaranteed a live URL quickly. I then attempted Cloudflare Workers as requested. Vercel is the right call for a Next.js prototype — Cloudflare Workers would be my choice for the API/edge layer in a production system handling real global traffic, given their edge network performance and lower latency."
+I deployed to Vercel first because it's zero-config for Next.js and guaranteed a live URL quickly. I then attempted Cloudflare Workers as requested. Vercel is the right call for a Next.js prototype — Cloudflare Workers would be my choice for the API/edge layer in a production system handling real global traffic, given their edge network performance and lower latency.
 
 ---
 
-## What We Built — Step by Step
+## What I Built
 
 ### Environment Setup
 - **Node v20.9.0** — confirmed compatible, EBADENGINE warnings on ESLint are non-breaking and can be ignored
@@ -34,7 +32,7 @@
 ### Database Schema (Supabase SQL Editor)
 Ran SQL to create three tables:
 
-**`users`** — Simulated user accounts (we seed these instead of building full auth to stay in scope)
+**`users`** — Simulated user accounts (seeded these instead of building full auth to stay in scope)
 - `id` (uuid, primary key)
 - `email` (unique)
 - `created_at`
@@ -53,21 +51,19 @@ Ran SQL to create three tables:
 
 **Seeded two test users:** `alice@test.com` and `bob@test.com` — used to demonstrate sharing without building a full auth system
 
-*Why this approach:* Building real authentication (signup, login, sessions, password reset) would consume 2-3 hours of the timebox. Seeding two users lets us demonstrate the sharing model clearly without sacrificing the core document editing features.
+Building real authentication (signup, login, sessions, password reset) would consume hours, kept simple for demo sake. Seeding two users lets us demonstrate the sharing model clearly without sacrificing the core document editing features.
 
 ### Environment Variables (`.env.local`)
-- `NEXT_PUBLIC_SUPABASE_URL` — project URL from Supabase dashboard (now called Publishable key section)
+- `NEXT_PUBLIC_SUPABASE_URL` — project URL from Supabase dashboard
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — public/publishable key, safe to use in browser with RLS
-
-*Note for meeting:* Supabase recently renamed "anon key" to "Publishable key" in their UI — same key, new label.
 
 ### `lib/supabase.ts`
 Creates a single reusable Supabase client instance that every other file imports.
-- Why one shared instance: avoids creating multiple database connections, standard practice
+- Avoids creating multiple database connections, standard practice
 
 ### `lib/types.ts`
 Defines TypeScript interfaces for `User`, `Document`, and `DocumentShare`.
-- Why: TypeScript will catch mismatches between what the database returns and what the UI expects — fewer runtime bugs, more readable code for reviewers
+- TypeScript will catch mismatches between what the database returns and what the UI expects — fewer runtime bugs, more readable code for reviewing
 
 ### `app/globals.css`
 Replaced boilerplate with Tailwind import + custom ProseMirror styles.
@@ -86,7 +82,7 @@ Replaced boilerplate with clean root layout — sets page title to "Ajaia Docs",
 
 **`app/api/upload/route.ts`** — Accepts .txt and .md files only (clearly stated), reads file text, converts line breaks to HTML paragraphs, creates a new document from the content. Unsupported file types return a 415 error with a clear message.
 
-*Why REST API routes inside Next.js:* Keeps everything in one codebase and one deployment. No separate Express server needed.
+Keeps everything in one codebase and one deployment. No separate Express server needed.
 
 ### Frontend Components
 
@@ -97,8 +93,7 @@ documents can be read-only if needed. Uses `@tiptap/extension-underline` as a se
 package since it is not included in StarterKit.
 
 **`components/ShareModal.tsx`** — Modal popup for sharing. Takes a document ID and owner ID, 
-calls the /api/share endpoint, shows success or error feedback inline. Hints the two 
-test accounts in the UI so reviewers can immediately test the sharing flow.
+calls the /api/share endpoint, shows success or error feedback inline.
 
 **`components/DocumentList.tsx`** — Renders owned and shared documents in separate labeled 
 sections. Shared docs show a "Shared with you" badge. Owned docs show a delete button. 
@@ -107,8 +102,7 @@ Clicking any card navigates to the editor page for that document.
 ### Pages
 
 **`app/page.tsx`** — Home screen. Shows a login screen first (user picker with Alice and 
-Bob) so the sharing model can be demonstrated without building real auth. After selecting 
-a user, shows their owned documents and documents shared with them in separate sections. 
+Bob). After selecting a user, shows their owned documents and documents shared with them in separate sections. 
 Has New Document button and file upload button. Upload is limited to .txt and .md files, 
 clearly labelled in the UI.
 
@@ -123,9 +117,7 @@ page can load real database IDs rather than hardcoding them.
 ### Bug Fix — Next.js 16 Params API Change
 Next.js 16 changed dynamic route params to be a Promise rather than a plain 
 object. Updated `app/api/documents/[id]/route.ts` to await params before 
-accessing the id property in all three handlers (GET, PATCH, DELETE). This is 
-a breaking change from Next.js 14 and earlier — worth noting as something AI 
-generated code based on older patterns that required a manual fix.
+accessing the id property in all three handlers (GET, PATCH, DELETE).
 
 ### Bug Fix — TipTap SSR Hydration Error
 TipTap's useEditor hook requires `immediatelyRender: false` when used in 
@@ -134,12 +126,6 @@ browser takes over. Without this flag TipTap tries to render on the server
 where browser APIs don't exist, causing a hydration mismatch. Added the flag 
 to the useEditor config in Editor.tsx. Another case where AI generated code 
 needed a manual fix for a framework-specific constraint.
-
-### Bug Fix — Delete Button On Shared Documents
-Documents shared with others were incorrectly losing their delete button 
-for the owner. Fixed by ensuring shared documents query filters out docs 
-where owner_id matches the current user, so owned docs always render with 
-the delete action regardless of share status.
 
 ### Automated Tests — `__tests__/documents.test.ts`
 Uses Node's built-in test runner (node:test) — no extra dependencies needed.
@@ -161,11 +147,17 @@ and keeps the test runnable with a single command.
 
 ### Tests — All Passing
 6/6 integration tests pass against live local server:
+
 ✔ creates a new document (169ms)
-✔ fetches a document by id (6257ms)  
+
+✔ fetches a document by id (6257ms) 
+
 ✔ updates a document title (152ms)
+
 ✔ returns owned documents for a user (570ms)
+
 ✔ rejects share request with missing fields (361ms)
+
 ✔ deletes a document (157ms)
 
 ### Deployment
@@ -181,14 +173,9 @@ and keeps the test runnable with a single command.
 - SUBMISSION.md — what is included, what works, what is incomplete, 
   what comes next
 
-### Video Walkthrough
-Video covering: login flow, document creation, rich 
-text formatting, autosave, reopen, file upload, sharing between Alice and 
-Bob, shared document badge, and deliberate scope cuts.
-
 ---
 
-## What We Intentionally Cut & Why
+## What I Intentionally Cut & Why
 
 | Feature | Decision | Reason |
 |---|---|---|
@@ -200,45 +187,3 @@ Bob, shared document badge, and deliberate scope cuts.
 
 ---
 
-## AI Workflow Notes (fill in as you go)
-
-### Tools Used
-- Claude (claude.ai) — architecture planning, code generation, explanation of each decision
-
-### Where AI Sped Up Work
-- Database schema design — generated in seconds, would have taken 15-20 min to think through manually
-- TipTap integration boilerplate — editor setup with toolbar is ~80 lines of code AI generated correctly first try
-- TypeScript types — auto-generated from schema, no manual typing needed
-
-### What Was Changed From AI Output
-- *(fill in as we go)*
-
-### What Was Rejected
-- *(fill in as we go)*
-
-### How Correctness Was Verified
-- Ran each piece locally before moving to next
-- Checked Supabase dashboard to confirm database writes were actually happening
-- Tested sharing flow manually with both alice and bob accounts
-
----
-
-## Things to Be Ready to Explain in the Meeting
-
-1. **Why Supabase over Firebase?** — Supabase uses real Postgres SQL, which is more transferable and professional than Firebase's NoSQL. Also open source.
-
-2. **Why TipTap over other editors?** — Most actively maintained, best React integration, ProseMirror underneath which is what Google Docs and other serious editors use internally.
-
-3. **Why store content as HTML?** — TipTap outputs HTML natively, and it round-trips cleanly — save HTML, load HTML back into editor, formatting is preserved exactly.
-
-4. **Why seed users instead of real auth?** — Deliberate scope decision. The assessment is testing document editing, file upload, and sharing logic — not OAuth flows. Explained upfront in README.
-
-5. **What would you build next with 2-4 more hours?**
-   - Real auth with Supabase Auth
-   - Cloudflare Workers deployment
-   - Document version history
-   - Export to Markdown or PDF
-
----
-
-*This file is a living document — update after each build step.*
