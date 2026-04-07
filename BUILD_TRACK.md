@@ -175,7 +175,6 @@ and keeps the test runnable with a single command.
 
 ---
 
-## What I Intentionally Cut & Why
 
 ## What I Intentionally Cut & Why
 
