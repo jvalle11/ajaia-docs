@@ -27,8 +27,8 @@ organizing them into a coherent structure.
 
 ## What AI Generated That Required Manual Fixes
 
-**Next.js 16 params API change** — AI generated route handlers using the 
-old synchronous params pattern. Next.js 16 made params a Promise that 
+**Next.js params API change** — AI generated route handlers using the 
+old synchronous params pattern. Next.js made params a Promise that 
 must be awaited. The app crashed on every document open until this was 
 caught and fixed manually in all three handlers in 
 `app/api/documents/[id]/route.ts`.
